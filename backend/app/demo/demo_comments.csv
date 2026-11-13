@@ -1,0 +1,183 @@
+comment,timestamp,likes,replies,platform
+"Not gonna lie, please make a beginner video on docker network drivers and DNS between containers",2026-09-25,3,0,YouTube
+"Hey, struggling to find unique GenAI project ideas that aren't just chatbots",2026-07-06,2,0,Reddit
+"Not gonna lie, can you explain docker compose networks and service discovery from scratch? Subscribed already.",2026-09-16,2,0,Reddit
+"Great channel btw. I messed up my git history, how do I undo a force push?",2026-09-29,2,0,YouTube
+"Honestly, I finished a python course but I can't build anything on my own",2026-06-11,2,0,YouTube
+"Model deployment is the part nobody teaches, I'm lost after training",2026-09-05,2,0,Reddit
+"Quick question: Docker networking is so confusing, what is the difference between bridge and host mode? Thanks!",2026-09-18,6,0,Reddit
+"Been stuck for days - kubernetes feels overwhelming, where do I even start as a beginner?",2026-07-07,4,0,Reddit
+How do I deploy my ML model so other people can actually use it?,2026-09-01,2,0,Reddit
+"Not gonna lie, my inference API is really slow in production, how do I optimize model serving",2026-08-31,2,0,Reddit
+"Honestly, git rebase vs merge - when should I use which?",2026-07-14,6,0,Reddit
+Please help: is a RAG chatbot a good portfolio project or is everyone doing it already? Any help welcome.,2026-08-06,4,0,Reddit
+Been stuck for days - struggling to find unique GenAI project ideas that aren't just chatbots Would really appreciate this.,2026-08-18,2,0,YouTube
+Great channel btw. Can you suggest practical python projects for beginners that aren't todo apps? Subscribed already.,2026-09-23,3,0,YouTube
+My container can't reach the database container even though they're on the same compose network Would really appreciate this.,2026-09-10,3,0,YouTube
+Quick question: I trained a model in a notebook but have no idea how to put it into production,2026-09-08,2,0,YouTube
+Been stuck for days - struggling to find unique GenAI project ideas that aren't just chatbots Any help welcome.,2026-08-22,2,0,YouTube
+Great channel btw. do I need deployment and a demo link for my AI portfolio projects?,2026-06-25,4,0,YouTube
+"Python virtual environments and packaging are confusing, can you explain? Would really appreciate this.",2026-06-02,10,4,Reddit
+What is git stash and when is it useful?,2026-07-22,3,0,YouTube
+Git rebase vs merge - when should I use which?,2026-08-06,5,0,YouTube
+"Honestly, please show how to present AI projects on a resume and linkedin",2026-07-06,2,0,YouTube
+"Honestly, do I need deployment and a demo link for my AI portfolio projects?",2026-09-06,4,0,YouTube
+"Please help: please cover MLOps basics: versioning, CI/CD and deploying models to the cloud",2026-06-14,2,0,YouTube
+"Docker networking is so confusing, what is the difference between bridge and host mode? Subscribed already.",2026-07-29,2,0,Reddit
+Please help: do I need deployment and a demo link for my AI portfolio projects?,2026-09-17,2,0,YouTube
+Please make a beginner video on docker network drivers and DNS between containers,2026-09-23,4,0,Reddit
+Please make a video on structuring a python project properly with tests,2026-07-19,2,0,YouTube
+I don't know how to turn my jupyter notebook into a real deployed application Subscribed already.,2026-07-28,3,0,YouTube
+"Not gonna lie, please cover MLOps basics: versioning, CI/CD and deploying models to the cloud",2026-08-10,3,0,Reddit
+Please help: how many projects should be on my github for an AI internship?,2026-08-17,23,6,YouTube
+Been stuck for days - my container can't reach the database container even though they're on the same compose network,2026-08-10,2,0,Reddit
+Quick question: I struggle to move from tutorials to building real python programs Would really appreciate this.,2026-09-11,4,0,Reddit
+Please show how to present AI projects on a resume and linkedin,2026-07-26,6,0,Reddit
+"Not gonna lie, can you explain pods versus deployments versus services in kubernetes? Would really appreciate this.",2026-09-02,2,0,YouTube
+I struggle to move from tutorials to building real python programs,2026-07-26,4,0,YouTube
+Kubernetes ingress controllers confuse me a lot Thanks!,2026-07-08,2,0,YouTube
+Quick question: how do I monitor a deployed model for drift and retrain it?,2026-08-23,3,0,YouTube
+"Not gonna lie, Can you suggest practical python projects for beginners that aren't todo apps?",2026-09-25,14,1,Reddit
+Quick question: please make a helm chart tutorial for beginners,2026-07-21,3,0,YouTube
+"Deploying a machine learning model to AWS confuses me, which service should I use?",2026-07-15,3,0,Reddit
+Please help: can you do a tutorial on serving a scikit-learn model with FastAPI and docker? Subscribed already.,2026-09-21,4,0,YouTube
+Please help: I don't know how to turn my jupyter notebook into a real deployed application,2026-07-04,31,2,Reddit
+Can you explain pods versus deployments versus services in kubernetes?,2026-09-03,2,0,YouTube
+Quick question: I can't understand how Docker containers talk to each other over bridge networks,2026-07-21,6,0,YouTube
+Great channel btw. I can't understand how Docker containers talk to each other over bridge networks,2026-07-07,2,0,YouTube
+"Hey, can you do a tutorial on serving a scikit-learn model with FastAPI and docker? Thanks!",2026-08-29,3,0,Reddit
+Great channel btw. how do I monitor a deployed model for drift and retrain it? Subscribed already.,2026-09-20,13,2,Reddit
+"Not gonna lie, tried three tutorials on container networking and I still don't get overlay networks Subscribed already.",2026-08-24,2,0,Reddit
+Been stuck for days - what python project ideas are good for a resume? Subscribed already.,2026-08-10,13,6,YouTube
+Great channel btw. struggling to find unique GenAI project ideas that aren't just chatbots,2026-08-24,6,0,YouTube
+"Honestly, deploying a machine learning model to AWS confuses me, which service should I use? Any help welcome.",2026-09-28,2,0,YouTube
+Quick question: git rebase vs merge - when should I use which? Would really appreciate this.,2026-09-19,2,0,YouTube
+"Not gonna lie, my container can't reach the database container even though they're on the same compose network",2026-09-25,3,0,YouTube
+Great channel btw. how do I expose a container port to the outside world without breaking everything,2026-09-21,2,0,YouTube
+"Not gonna lie, how do branching strategies work on real teams like gitflow or trunk based?",2026-09-28,2,0,Reddit
+"Honestly, please make a helm chart tutorial for beginners",2026-06-03,6,0,Reddit
+"Quick question: what is the difference between kubernetes and docker swarm, which should I learn?",2026-07-14,3,0,YouTube
+"Not gonna lie, Can you suggest practical python projects for beginners that aren't todo apps? Thanks!",2026-07-26,2,0,YouTube
+Great channel btw. please make a beginner video on docker network drivers and DNS between containers,2026-07-27,11,3,YouTube
+"Please help: what is the difference between kubernetes and docker swarm, which should I learn? Thanks!",2026-06-06,3,0,YouTube
+How do I monitor a deployed model for drift and retrain it?,2026-09-19,2,0,YouTube
+"Honestly, my inference API is really slow in production, how do I optimize model serving",2026-07-31,2,0,YouTube
+"Great channel btw. I messed up my git history, how do I undo a force push? Would really appreciate this.",2026-09-29,2,0,YouTube
+"Please help: my inference API is really slow in production, how do I optimize model serving",2026-09-25,7,0,YouTube
+"Please help: my inference API is really slow in production, how do I optimize model serving",2026-09-17,5,0,YouTube
+"Great channel btw. getting connection refused between two docker services, no idea how to debug networking",2026-09-08,5,0,Reddit
+What GenAI projects should I build to get hired as a fresher? Would really appreciate this.,2026-07-02,2,0,YouTube
+Quick question: how do I monitor a deployed model for drift and retrain it? Thanks!,2026-09-18,2,0,YouTube
+"Please help: Docker networking is so confusing, what is the difference between bridge and host mode? Subscribed already.",2026-09-29,4,0,YouTube
+How many projects should be on my github for an AI internship?,2026-09-09,2,0,Reddit
+Great channel btw. how do I set up a local kubernetes cluster with minikube?,2026-06-16,2,0,Reddit
+Great channel btw. please make a video on structuring a python project properly with tests Would really appreciate this.,2026-06-12,6,0,Reddit
+How do I learn python decorators and generators in a way that sticks?,2026-09-26,2,0,YouTube
+"Honestly, kubernetes ingress controllers confuse me a lot",2026-09-29,3,0,YouTube
+Please help: can you make a video about resolving merge conflicts without panicking? Would really appreciate this.,2026-06-21,13,0,Reddit
+"Not gonna lie, what is the difference between kubernetes and docker swarm, which should I learn?",2026-06-15,3,0,Reddit
+"Quick question: getting connection refused between two docker services, no idea how to debug networking",2026-07-31,4,0,YouTube
+What is git stash and when is it useful?,2026-07-21,2,0,YouTube
+"Please help: recruiters keep ignoring my AI portfolio, what do they actually look for?",2026-09-27,2,0,Reddit
+Please help: I can't understand how Docker containers talk to each other over bridge networks,2026-08-26,3,0,Reddit
+How do I prepare for AI engineer interviews after building a few projects Would really appreciate this.,2026-08-04,22,1,YouTube
+"Not gonna lie, is a RAG chatbot a good portfolio project or is everyone doing it already? Any help welcome.",2026-09-29,2,0,YouTube
+"Quick question: getting connection refused between two docker services, no idea how to debug networking",2026-09-17,2,0,YouTube
+Quick question: please make a video on structuring a python project properly with tests Any help welcome.,2026-09-04,6,0,Reddit
+Please help: how do I prepare for AI engineer interviews after building a few projects Would really appreciate this.,2026-08-31,4,0,Reddit
+"My pods keep crashing with CrashLoopBackOff, how do I debug this? Subscribed already.",2026-06-16,3,0,Reddit
+Quick question: I don't know how to turn my jupyter notebook into a real deployed application,2026-09-19,2,0,YouTube
+"Been stuck for days - I messed up my git history, how do I undo a force push?",2026-06-09,2,0,Reddit
+"What is the difference between kubernetes and docker swarm, which should I learn?",2026-08-23,3,0,YouTube
+"Quick question: I messed up my git history, how do I undo a force push?",2026-09-14,4,0,YouTube
+"Quick question: what is the difference between kubernetes and docker swarm, which should I learn?",2026-06-18,3,0,YouTube
+Been stuck for days - please make a beginner video on docker network drivers and DNS between containers Subscribed already.,2026-09-20,9,3,Reddit
+Quick question: What GenAI projects should I build to get hired as a fresher? Any help welcome.,2026-09-20,3,0,Reddit
+"Not gonna lie, I finished a python course but I can't build anything on my own",2026-06-10,2,0,YouTube
+"Hey, which python libraries should I learn first for automation?",2026-09-17,2,0,YouTube
+Please help: how do I learn python decorators and generators in a way that sticks? Thanks!,2026-06-13,2,0,Reddit
+"Hey, python virtual environments and packaging are confusing, can you explain?",2026-08-11,5,0,YouTube
+Please help: how do I expose a container port to the outside world without breaking everything,2026-09-05,2,0,Reddit
+Can you explain pods versus deployments versus services in kubernetes?,2026-09-26,2,0,YouTube
+Been stuck for days - How do I deploy my ML model so other people can actually use it?,2026-08-12,4,0,YouTube
+How do I learn python decorators and generators in a way that sticks?,2026-09-19,2,0,YouTube
+Quick question: can you do a tutorial on serving a scikit-learn model with FastAPI and docker? Thanks!,2026-08-10,4,0,YouTube
+Great channel btw. please make a helm chart tutorial for beginners,2026-06-09,2,0,Reddit
+"Not gonna lie, I'm a student and I don't know which LLM projects look impressive on a resume",2026-07-20,2,0,Reddit
+Please help: I finished a python course but I can't build anything on my own,2026-09-11,8,0,YouTube
+What is git stash and when is it useful? Any help welcome.,2026-07-21,4,0,Reddit
+"Please help: my pods keep crashing with CrashLoopBackOff, how do I debug this?",2026-06-10,12,6,Reddit
+Please help: please make a beginner video on docker network drivers and DNS between containers,2026-08-27,5,0,Reddit
+Quick question: what's the best way to host a pytorch model cheaply for a portfolio project Subscribed already.,2026-09-16,4,0,YouTube
+"Hey, what is git stash and when is it useful? Would really appreciate this.",2026-09-09,6,0,YouTube
+"Not gonna lie, please make a helm chart tutorial for beginners",2026-08-09,2,0,Reddit
+"Honestly, what python project ideas are good for a resume?",2026-07-24,2,0,YouTube
+Please make a helm chart tutorial for beginners Subscribed already.,2026-08-24,3,0,Reddit
+How do I monitor a deployed model for drift and retrain it?,2026-09-06,6,0,Reddit
+Please help: how do I set up a local kubernetes cluster with minikube?,2026-09-20,6,0,YouTube
+Please make a beginner video on docker network drivers and DNS between containers,2026-09-01,7,0,YouTube
+"Been stuck for days - please cover MLOps basics: versioning, CI/CD and deploying models to the cloud Thanks!",2026-08-24,9,6,Reddit
+Great channel btw. how do branching strategies work on real teams like gitflow or trunk based?,2026-07-16,3,0,YouTube
+"Quick question: getting connection refused between two docker services, no idea how to debug networking",2026-09-28,2,0,YouTube
+Great channel btw. What GenAI projects should I build to get hired as a fresher?,2026-07-22,2,0,Reddit
+Great channel btw. can you explain pods versus deployments versus services in kubernetes?,2026-06-03,3,0,YouTube
+"Been stuck for days - model deployment is the part nobody teaches, I'm lost after training",2026-06-15,3,0,YouTube
+"Please help: localhost inside a docker container never points to my host machine, why?",2026-09-24,5,0,Reddit
+"Python virtual environments and packaging are confusing, can you explain?",2026-07-15,3,0,Reddit
+Great channel btw. can you make a video about resolving merge conflicts without panicking?,2026-09-01,5,0,YouTube
+Please make a video on structuring a python project properly with tests Would really appreciate this.,2026-07-21,2,0,YouTube
+Been stuck for days - do I need deployment and a demo link for my AI portfolio projects?,2026-07-15,2,0,YouTube
+"Honestly, how many projects should be on my github for an AI internship?",2026-08-22,15,4,YouTube
+Been stuck for days - my container can't reach the database container even though they're on the same compose network,2026-09-27,2,0,YouTube
+Been stuck for days - can you make a roadmap for building a generative AI portfolio from zero? Thanks!,2026-09-27,2,0,Reddit
+"Not gonna lie, Can you suggest practical python projects for beginners that aren't todo apps? Thanks!",2026-08-11,3,0,YouTube
+Been stuck for days - can you make a video about resolving merge conflicts without panicking?,2026-08-13,4,0,YouTube
+Please help: how do branching strategies work on real teams like gitflow or trunk based?,2026-08-26,2,0,YouTube
+"Not gonna lie, localhost inside a docker container never points to my host machine, why? Any help welcome.",2026-09-22,9,4,Reddit
+"Not gonna lie, how many projects should be on my github for an AI internship?",2026-09-16,2,0,YouTube
+"Quick question: my inference API is really slow in production, how do I optimize model serving Would really appreciate this.",2026-09-23,16,0,YouTube
+"Been stuck for days - recruiters keep ignoring my AI portfolio, what do they actually look for? Thanks!",2026-08-18,3,0,Reddit
+Can you do a tutorial on serving a scikit-learn model with FastAPI and docker?,2026-09-02,3,0,Reddit
+"Honestly, how do branching strategies work on real teams like gitflow or trunk based?",2026-07-13,2,0,YouTube
+"Honestly, what is the difference between kubernetes and docker swarm, which should I learn? Thanks!",2026-07-02,5,0,YouTube
+"Hey, what python project ideas are good for a resume?",2026-06-06,2,0,YouTube
+Quick question: I trained a model in a notebook but have no idea how to put it into production,2026-08-11,2,0,YouTube
+"Great channel btw. model deployment is the part nobody teaches, I'm lost after training Thanks!",2026-07-26,5,0,Reddit
+"Honestly, I finished a python course but I can't build anything on my own",2026-07-30,5,0,Reddit
+"Not gonna lie, my container can't reach the database container even though they're on the same compose network",2026-08-21,2,0,YouTube
+I can't understand how Docker containers talk to each other over bridge networks Subscribed already.,2026-09-26,3,0,YouTube
+"Quick question: I messed up my git history, how do I undo a force push?",2026-08-29,4,0,YouTube
+"Please help: getting connection refused between two docker services, no idea how to debug networking",2026-07-17,3,0,Reddit
+Please help: my container can't reach the database container even though they're on the same compose network Any help welcome.,2026-09-02,2,0,YouTube
+Great channel btw. git rebase vs merge - when should I use which?,2026-07-02,4,0,Reddit
+"Honestly, python virtual environments and packaging are confusing, can you explain? Thanks!",2026-06-11,2,0,Reddit
+Been stuck for days - please make a video on structuring a python project properly with tests,2026-07-27,17,3,Reddit
+Great channel btw. can you explain pods versus deployments versus services in kubernetes?,2026-08-13,7,0,YouTube
+Been stuck for days - what python project ideas are good for a resume?,2026-08-03,2,0,YouTube
+"Quick question: I messed up my git history, how do I undo a force push?",2026-08-15,2,0,YouTube
+"Not gonna lie, localhost inside a docker container never points to my host machine, why? Subscribed already.",2026-09-08,2,0,YouTube
+"Honestly, do I need deployment and a demo link for my AI portfolio projects? Thanks!",2026-09-21,2,0,YouTube
+"Hey, please make a helm chart tutorial for beginners",2026-08-31,3,0,Reddit
+"My inference API is really slow in production, how do I optimize model serving Any help welcome.",2026-08-31,2,0,YouTube
+Great channel btw. can you explain pods versus deployments versus services in kubernetes?,2026-06-10,12,4,Reddit
+How do I monitor a deployed model for drift and retrain it?,2026-07-27,3,0,Reddit
+Been stuck for days - can you do a tutorial on serving a scikit-learn model with FastAPI and docker? Subscribed already.,2026-09-07,3,0,YouTube
+"Honestly, What GenAI projects should I build to get hired as a fresher?",2026-09-23,2,0,YouTube
+"Not gonna lie, I finished a python course but I can't build anything on my own Would really appreciate this.",2026-08-08,7,0,YouTube
+"Not gonna lie, getting connection refused between two docker services, no idea how to debug networking",2026-07-22,10,1,YouTube
+"My inference API is really slow in production, how do I optimize model serving",2026-09-04,3,0,YouTube
+Great channel btw. what is git stash and when is it useful?,2026-07-12,2,0,YouTube
+Kubernetes ingress controllers confuse me a lot Subscribed already.,2026-06-22,3,0,YouTube
+"Honestly, do I need deployment and a demo link for my AI portfolio projects?",2026-09-18,2,0,Reddit
+Been stuck for days - what python project ideas are good for a resume?,2026-07-31,3,0,Reddit
+Been stuck for days - is a RAG chatbot a good portfolio project or is everyone doing it already?,2026-09-03,2,0,YouTube
+Please help: please make a beginner video on docker network drivers and DNS between containers,2026-07-12,7,0,Reddit
+Great channel btw. how do I set up a local kubernetes cluster with minikube?,2026-06-02,2,0,Reddit
+Please help: I finished a python course but I can't build anything on my own Thanks!,2026-07-28,5,0,YouTube
+Been stuck for days - my container can't reach the database container even though they're on the same compose network,2026-09-27,2,0,Reddit
+"Please help: Docker networking is so confusing, what is the difference between bridge and host mode?",2026-09-27,4,0,YouTube
+Great channel btw. how do I prepare for AI engineer interviews after building a few projects,2026-09-02,3,0,YouTube
+"Honestly, kubernetes ingress controllers confuse me a lot",2026-08-29,29,5,YouTube
+What actually happens to ports when I use -p 8080:80 in docker run? Thanks!,2026-09-01,5,0,Reddit
+Great channel btw. what actually happens to ports when I use -p 8080:80 in docker run?,2026-08-30,2,0,Reddit
+Great channel btw. my container can't reach the database container even though they're on the same compose network Thanks!,2026-07-29,2,0,YouTube

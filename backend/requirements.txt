@@ -1,0 +1,22 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+python-dotenv>=1.0
+pydantic>=2.7
+httpx>=0.27
+pymongo>=4.7               # optional: for MongoDB support
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.3          # sklearn.cluster.HDBSCAN needs >=1.3
+sentence-transformers>=3.0 # all-MiniLM-L6-v2 (downloads ~90 MB on first run)
+faiss-cpu>=1.8             # optional: for vector similarity search
+langgraph>=0.2
+google-genai>=1.0
+pillow>=10.0
+langdetect>=1.0.9
+openai-whisper>=20240930   # optional: for audio/video transcription; also needs ffmpeg on PATH
+
+# Test-only packages:
+pytest>=8
+mongomock>=4.1
+respx>=0.21
