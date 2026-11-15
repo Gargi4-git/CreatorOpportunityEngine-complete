@@ -32,3 +32,9 @@ Thumbs.db
 .pytest_cache/
 .mypy_cache/
 "@ | Set-Content .gitignore
+# Generated and collected datasets
+data/raw/
+data/processed/
+# Generated and collected datasets
+data/raw/
+data/processed/
