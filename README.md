@@ -93,3 +93,22 @@ The quadrant (Ghost Gap / Saturated / Niche / Low value) uses demand vs competit
 - Gemini, YouTube, Reddit and Whisper paths are tested against mocks, not live services.
 - Frontend stays JavaScript (JSX), not TypeScript. Video generation is intentionally not offered. Neo4j is not included.
 - The legacy CSV-script backend (`backend/main.py`, `backend/ai/`, `data/`) is untouched and unused by the new UI.
+
+---
+## Research & workspace features (added)
+
+| Page | What it does | Where the numbers come from |
+|---|---|---|
+| **Evaluation → Model evaluation** | Hand-label comments (blind, predictions hidden) or import a labelled CSV; reports accuracy, macro-F1, per-class P/R/F1, confusion matrix and the **majority-class baseline** for intent and sentiment; clustering quality (noise ratio, silhouette, Davies-Bouldin); topic recovery (ARI/NMI) if you label topics; **GhostGap ablation** (drop / use-only-one component, Kendall τ, does #1 change); **MiniLM vs lexical-baseline** comparison. | Your labels + stored embeddings/clusters; scikit-learn / SciPy. Nothing is reported below 20 labels. |
+| **Evaluation → Closed-loop validation** | Track a recommended opportunity; after publishing, compare real performance with the prediction made at the time. Outcome = 100·r/(1+r), r = views/day ÷ the channel's median views/day over its last 10 videos (YouTube API) or your own manual numbers. Reports Spearman/Pearson/Kendall, hit-rates, per-component correlation. | YouTube Data API or manual entry. Videos < 14 days old are excluded by default; n < 10 is labelled "anecdotal". |
+| **GhostGap Lab** | Sliders re-rank topics live; Monte-Carlo sensitivity (500 random re-weightings within ±X%) gives P(rank #1) per topic and the stability of the top pick; one-at-a-time tornado table; **learned weights** (non-negative ridge on tracked outcomes, leave-one-out R²; flagged exploratory below 20 videos or when LOO R² ≤ 0; previewable, never applied automatically). | `ml/scoring.py`, `ml/sensitivity.py`, `ml/learned_weights.py` |
+| **History & Compare** | Lists every analysis; compares two side by side (topics matched by centroid cosine, with deltas); follows topics across repeated analyses of the same channel / subreddit / file. | Stored embeddings; analyses made with different embedding models are refused. |
+| **Content Planner** | Idea → Scripted → Published board (owned by the `users` collection). "Mark published" records the video URL and starts closed-loop tracking. Save from the opportunity modal or a generated brief. | MongoDB `plan_items`, `validations` |
+| **Knowledge Graph** | Source → Topic → Pain point, Topic → Opportunity → Content (networkx, PageRank). Pain points are key phrases from the cluster's high-pain comments; a phrase shared by several topics links them. Content nodes appear only when a recommendation exists or you saved the item to the planner. | Real analysis data |
+| **Channel analysis** (YouTube tab → *Whole channel*) | Last N videos × comments per video; per-video breakdown on each opportunity; analyses of one channel are linked in History. | YouTube Data API |
+| **Better competition** | YouTube volume + recency + **topic coverage** (embedding similarity of top-result title+description to the topic) + Stack Overflow (public API, no key) + Reddit search (if configured). A source that fails is omitted and the weights renormalised. | `ml/competition.py`, `services/supply_service.py` |
+| **Multilingual** (checkbox) | Uses `paraphrase-multilingual-MiniLM-L12-v2` and keeps non-English comments (language mix reported). | `MULTILINGUAL_MODEL` |
+
+Tests: `cd backend && pytest` (36 tests: the original 19 + 17 for these features; external APIs mocked, test-only embedder).
+Caveats: validation and learned weights need real tracked videos to mean anything; outcomes use views/day, which is noisy for young videos;
+Stack Overflow supply is most meaningful for technical topics; the multilingual model downloads on first use.
