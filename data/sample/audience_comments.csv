@@ -1,0 +1,11 @@
+id,source,author,text,timestamp,engagement,url
+1,youtube,creator_fan_01,"I struggle to find good Python projects that are actually useful for my resume.",2026-09-01,42,https://youtube.com/example1
+2,youtube,student_ai,"Can you make a video explaining how to build an AI project from scratch?",2026-09-02,67,https://youtube.com/example2
+3,reddit,ml_student,"Most machine learning tutorials are too theoretical. I want practical projects with real datasets.",2026-09-03,91,https://reddit.com/example1
+4,youtube,beginner_dev,"I don't know which AI tools I should learn for getting an internship.",2026-09-04,55,https://youtube.com/example3
+5,reddit,data_science_fan,"Finding good datasets is one of the hardest parts of my projects.",2026-09-05,73,https://reddit.com/example2
+6,youtube,python_user,"Can you compare FastAPI and Flask for building ML applications?",2026-09-06,38,https://youtube.com/example4
+7,reddit,career_switcher,"I want to move into AI but there are too many technologies to learn.",2026-09-07,84,https://reddit.com/example3
+8,youtube,student_dev,"Please make a roadmap for learning GenAI as a beginner.",2026-09-08,102,https://youtube.com/example5
+9,reddit,ml_engineer,"A lot of AI tutorials don't explain how to deploy models in production.",2026-09-09,76,https://reddit.com/example4
+10,youtube,cs_student,"What projects should I build if I want an ML internship?",2026-09-10,88,https://youtube.com/example6
