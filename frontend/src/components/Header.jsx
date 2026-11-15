@@ -18,6 +18,31 @@ export default function Header({ activePage, onRefresh, refreshing }) {
             title: "Audience Data Sources",
             subtitle: "Connect YouTube, Reddit, CSV files and media. Status reflects what is actually configured.",
         },
+        evaluation: {
+            breadcrumb: "Research / Evaluation",
+            title: "Evaluation & Validation",
+            subtitle: "Measure classifier and clustering quality against your own labels, and test whether GhostGap predicts real results.",
+        },
+        lab: {
+            breadcrumb: "Research / GhostGap Lab",
+            title: "GhostGap Lab",
+            subtitle: "Change the weights, watch the ranking move, and see how stable the top opportunity really is.",
+        },
+        history: {
+            breadcrumb: "Research / History",
+            title: "Analysis History & Comparison",
+            subtitle: "Compare two analyses side by side, or follow topics across analyses of the same source over time.",
+        },
+        graph: {
+            breadcrumb: "Research / Knowledge Graph",
+            title: "Audience Knowledge Graph",
+            subtitle: "Source → Topic → Pain point, Topic → Opportunity → Content, built from your analysis.",
+        },
+        planner: {
+            breadcrumb: "Workspace / Content Planner",
+            title: "Content Planner",
+            subtitle: "Move opportunities from idea to scripted to published, and track how each one performs.",
+        },
         analytics: {
             breadcrumb: "Insights / Analytics",
             title: "Audience & Topic Analytics",

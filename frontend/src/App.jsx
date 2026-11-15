@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getAnalysis, getHealth, getOpportunities, getOverview } from "./api";
+import { getAnalysis, getHealth, getOpportunities, getOpportunity, getOverview } from "./api";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import OpportunityModal from "./components/OpportunityModal";
@@ -7,6 +7,11 @@ import Overview from "./pages/Overview";
 import Opportunities from "./pages/Opportunities";
 import Sources from "./pages/Sources";
 import Analytics from "./pages/Analytics";
+import Evaluation from "./pages/Evaluation";
+import Lab from "./pages/Lab";
+import History from "./pages/History";
+import Planner from "./pages/Planner";
+import Graph from "./pages/Graph";
 import CreatorStudio from "./CreatorStudio";
 import { RefreshCw, CircleAlert } from "lucide-react";
 import "./App.css";
@@ -53,6 +58,12 @@ export default function App() {
 
     const startRun = (id, label) => setRun({ id, label, analysis: null });
 
+    const openOppById = async (id) => {                    // from graph / planner / lab: the opportunity may belong to any analysis
+        const local = opportunities.find((o) => o.id === id);
+        if (local) return setSelected(local);
+        try { setSelected(await getOpportunity(id)); } catch { /* opportunity no longer exists */ }
+    };
+
     const openStudio = (opp) => { setStudioOppId(opp?.id || null); setActivePage("creator-studio"); setSelected(null); };
 
     return (
@@ -78,7 +89,12 @@ export default function App() {
                                            studioOppId={studioOppId} setStudioOppId={setStudioOppId} />
                         )}
                         {activePage === "sources" && <Sources health={health} run={run} startRun={startRun} overview={overview} />}
-                        {activePage === "analytics" && <Analytics overview={overview} onOpenId={(id) => setSelected(opportunities.find((o) => o.id === id))} onNavigate={setActivePage} />}
+                        {activePage === "evaluation" && <Evaluation opportunities={opportunities} />}
+                        {activePage === "lab" && <Lab overview={overview} onNavigate={setActivePage} />}
+                        {activePage === "history" && <History onNavigate={setActivePage} />}
+                        {activePage === "planner" && <Planner opportunities={opportunities} onNavigate={setActivePage} onOpenOpp={openOppById} />}
+                        {activePage === "graph" && <Graph onOpenId={openOppById} onNavigate={setActivePage} />}
+                        {activePage === "analytics" && <Analytics overview={overview} onOpenId={openOppById} onNavigate={setActivePage} />}
                     </>
                 )}
             </main>

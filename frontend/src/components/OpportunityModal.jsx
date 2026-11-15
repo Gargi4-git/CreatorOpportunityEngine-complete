@@ -2,7 +2,17 @@ import React from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { Sparkles, X, Target, HelpCircle, Lightbulb, Video, TrendingUp, Swords, MessageSquareQuote, ListChecks } from "lucide-react";
 import GhostGapBreakdown from "./GhostGapBreakdown";
+import { planCreate, errMsg } from "../api";
 import { num, oppTitle } from "../format";
+
+function SaveToPlanner({ opp }) {
+    const [state, setState] = React.useState({ saved: false, error: null });
+    const save = async () => { try { await planCreate(opp.id); setState({ saved: true, error: null }); } catch (e) { setState({ saved: false, error: errMsg(e) }); } };
+    return (<>
+        <button className="demo-btn" style={{ marginLeft: 10 }} onClick={save} disabled={state.saved}>{state.saved ? "✓ Saved to planner" : "Save to planner"}</button>
+        {state.error && <small className="caveat"> {state.error}</small>}
+    </>);
+}
 
 const Section = ({ icon: Icon, title, children }) => (
     <div className="detail-section"><div className="detail-header"><Icon size={16} /><h4>{title}</h4></div>{children}</div>
@@ -72,7 +82,16 @@ export default function OpportunityModal({ opportunity: o, onClose, onGenerate }
                         <p>Score {c.score}/100 for query “{c.query}”: about {c.total_results.toLocaleString()} YouTube results (estimate); {Math.round(c.recent_share * 100)}% of the top {c.sampled} are
                             from the last 180 days; {Math.round(c.relevance_share * 100)}% have closely matching titles.</p>
                     ) : <p className="caveat">Competition data unavailable. {c.reason}</p>}
+                    {c.available && c.coverage_method && <p className="topic-sub">Subtopic coverage measured by {c.coverage_method.replace("_", " ")}
+                        {c.mean_topic_similarity != null ? ` (mean similarity ${c.mean_topic_similarity})` : ""}.
+                        {Object.keys(c.other_platforms || {}).length ? ` Also measured on ${Object.keys(c.other_platforms).join(", ")}.` : ""}
+                        {c.other_platforms_unavailable?.length ? ` Unavailable: ${c.other_platforms_unavailable.join(", ")}.` : ""}</p>}
                 </Section>
+
+                {o.video_breakdown?.length > 0 && (
+                    <Section icon={MessageSquareQuote} title="WHICH VIDEOS DRIVE THIS TOPIC">
+                        <ul className="evidence-list">{o.video_breakdown.map((v) => <li key={v.video_id}>{v.title} <small>{v.count} comments</small></li>)}</ul>
+                    </Section>)}
 
                 <Section icon={MessageSquareQuote} title="REPRESENTATIVE AUDIENCE COMMENTS">
                     <ul className="evidence-list">
@@ -107,6 +126,7 @@ export default function OpportunityModal({ opportunity: o, onClose, onGenerate }
                 <button className="view-button" style={{ marginTop: 16 }} onClick={() => onGenerate(o)}>
                     <span>Generate content brief in Creator Studio</span>
                 </button>
+                <SaveToPlanner opp={o} />
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FlaskConical, Upload, Image as ImageIcon, Mic, Film, KeyRound } from "lucide-react";
-import { analyzeReddit, analyzeYoutube, errCode, errMsg, getSource, loadDemo, runAnalysis, uploadAudio, uploadCsv, uploadImage, uploadVideo } from "../api";
+import { analyzeReddit, analyzeYoutube, analyzeYoutubeChannel, errCode, errMsg, getSource, loadDemo, runAnalysis, uploadAudio, uploadCsv, uploadImage, uploadVideo } from "../api";
 
 const LIMITS = [100, 250, 500, 1000];
 
@@ -13,6 +13,10 @@ export default function SourceInput({ kind, health, stash, setStash, onStarted, 
     const [url, setUrl] = useState("");
     const [limit, setLimit] = useState(250);
     const [working, setWorking] = useState(false);
+    const [mode, setMode] = useState("video");          // YouTube: single video | whole channel
+    const [videoCount, setVideoCount] = useState(5);
+    const [perVideo, setPerVideo] = useState(100);
+    const [multilingual, setMultilingual] = useState(false);
     const [notice, setNotice] = useState(null);
     const fileRefs = { csv: useRef(), image: useRef(), audio: useRef(), video: useRef() };
 
@@ -36,17 +40,25 @@ export default function SourceInput({ kind, health, stash, setStash, onStarted, 
     const guard = async (fn) => { setWorking(true); setNotice(null); try { await fn(); } catch (e) { fail(e); } finally { setWorking(false); } };
 
     const startYoutube = () => guard(async () => {
-        const r = await analyzeYoutube(url.trim(), limit);
+        if (mode === "channel") {
+            const c = await analyzeYoutubeChannel(url.trim(), videoCount, perVideo, multilingual);
+            onStarted(c.analysis_id, `Channel: ${c.channel.title}`);
+            const skipped = c.videos.filter((v) => v.skipped).length;
+            setNotice({ type: "success", title: `Fetched ${c.comments_fetched} comments from ${c.videos.length - skipped} videos`,
+                text: c.channel.title + (skipped ? ` — ${skipped} video(s) skipped (comments disabled)` : "") });
+            return;
+        }
+        const r = await analyzeYoutube(url.trim(), limit, multilingual);
         onStarted(r.analysis_id, `YouTube: ${r.video.title}`);
         setNotice({ type: "success", title: `Fetched ${r.comments_fetched} real comments`, text: `${r.video.title} — ${r.video.channel}` });
     });
     const startReddit = () => guard(async () => {
-        const r = await analyzeReddit(url.trim(), limit);
+        const r = await analyzeReddit(url.trim(), limit, multilingual);
         onStarted(r.analysis_id, `Reddit: ${r.subreddit}`);
         setNotice({ type: "success", title: `Fetched ${r.records_fetched} posts/comments`, text: `r/${r.subreddit}` });
     });
     const startDemo = () => guard(async () => {
-        const r = await loadDemo();
+        const r = await loadDemo(multilingual);
         onStarted(r.analysis_id, "Demo Dataset (synthetic)");
     });
     const addFile = (type, fn) => async (e) => {
@@ -60,7 +72,7 @@ export default function SourceInput({ kind, health, stash, setStash, onStarted, 
     };
     const analyzeStash = () => guard(async () => {
         const ids = stash.filter((s) => s.selected && s.status === "ready").map((s) => s.id);
-        const r = await runAnalysis(ids);
+        const r = await runAnalysis(ids, multilingual);
         onStarted(r.analysis_id, ids.length > 1 ? `${ids.length} fused inputs` : stash.find((s) => s.id === ids[0])?.label);
     });
 
@@ -79,19 +91,36 @@ export default function SourceInput({ kind, health, stash, setStash, onStarted, 
                                 <p>{kind === "youtube" ? "YouTube API not connected — set YOUTUBE_API_KEY in the backend .env." : "Reddit integration unavailable — set REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET and REDDIT_USER_AGENT."} No real data can be fetched until then.</p></div>
                         </div>
                     )}
+                    {kind === "youtube" && (
+                        <div className="mode-toggle">
+                            <button type="button" className={mode === "video" ? "active" : ""} onClick={() => setMode("video")}>Single video</button>
+                            <button type="button" className={mode === "channel" ? "active" : ""} onClick={() => setMode("channel")}>Whole channel (last N videos)</button>
+                        </div>
+                    )}
                     <div className="ingest-form-row">
                         <div className="ingest-input-wrap">
                             <span className="ingest-input-icon">🔗</span>
                             <input type="text" className="ingest-url-input" disabled={disabled}
-                                   placeholder={kind === "youtube" ? "https://www.youtube.com/watch?v=..." : "r/MachineLearning or a Reddit post URL"}
+                                   placeholder={kind === "youtube" ? (mode === "channel" ? "https://www.youtube.com/@channelname" : "https://www.youtube.com/watch?v=...") : "r/MachineLearning or a Reddit post URL"}
                                    value={url} onChange={(e) => setUrl(e.target.value)} />
                         </div>
-                        <div className="ingest-select-wrap">
-                            <label className="ingest-select-label">{kind === "youtube" ? "Comments:" : "Posts/comments:"}</label>
-                            <select className="ingest-limit-select" value={limit} disabled={disabled} onChange={(e) => setLimit(Number(e.target.value))}>
-                                {LIMITS.slice(0, kind === "reddit" ? 3 : 4).map((n) => <option key={n} value={n}>{n}</option>)}
-                            </select>
-                        </div>
+                        {kind === "youtube" && mode === "channel" ? (
+                            <>
+                                <div className="ingest-select-wrap"><label className="ingest-select-label">Videos:</label>
+                                    <select className="ingest-limit-select" value={videoCount} disabled={disabled} onChange={(e) => setVideoCount(Number(e.target.value))}>
+                                        {[3, 5, 10, 15, 25].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
+                                <div className="ingest-select-wrap"><label className="ingest-select-label">Comments/video:</label>
+                                    <select className="ingest-limit-select" value={perVideo} disabled={disabled} onChange={(e) => setPerVideo(Number(e.target.value))}>
+                                        {[50, 100, 250].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
+                            </>
+                        ) : (
+                            <div className="ingest-select-wrap">
+                                <label className="ingest-select-label">{kind === "youtube" ? "Comments:" : "Posts/comments:"}</label>
+                                <select className="ingest-limit-select" value={limit} disabled={disabled} onChange={(e) => setLimit(Number(e.target.value))}>
+                                    {LIMITS.slice(0, kind === "reddit" ? 3 : 4).map((n) => <option key={n} value={n}>{n}</option>)}
+                                </select>
+                            </div>
+                        )}
                         <button type="button" className="ingest-submit-btn" disabled={disabled || keyMissing || !url.trim()} onClick={kind === "youtube" ? startYoutube : startReddit}>
                             {working ? "Fetching…" : kind === "youtube" ? "✦ Analyze Audience" : "✦ Analyze"}
                         </button>
@@ -164,6 +193,10 @@ export default function SourceInput({ kind, health, stash, setStash, onStarted, 
                     <div><strong>{notice.title}</strong><p>{notice.text}</p></div></div>
             )}
 
+            <label className="ml-check">
+                <input type="checkbox" checked={multilingual} onChange={(e) => setMultilingual(e.target.checked)} />
+                Include non-English comments <small>(uses a multilingual embedding model; otherwise non-English comments are removed)</small>
+            </label>
             <div className="demo-row">
                 <button className="demo-btn" disabled={disabled} onClick={startDemo}><FlaskConical size={14} /> Load Demo Dataset</button>
                 <small>Clearly labelled synthetic sample — runs through the same pipeline; never presented as live data.</small>

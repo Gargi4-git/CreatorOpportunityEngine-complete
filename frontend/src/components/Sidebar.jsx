@@ -1,15 +1,24 @@
 import React from "react";
-import { LayoutDashboard, Sparkles, Database, BarChart3, Brain, Wand2 } from "lucide-react";
+import { LayoutDashboard, Sparkles, Database, BarChart3, Brain, Wand2, FlaskConical, SlidersHorizontal, History, Network, KanbanSquare } from "lucide-react";
 
 const Chip = ({ ok, label }) => <li className={ok ? "ok" : "off"}><span />{label}</li>;
 
 export default function Sidebar({ activePage, setActivePage, signalCount = 0, health, backendDown }) {
-    const menuItems = [
-        { id: "overview", label: "Overview", icon: LayoutDashboard },
-        { id: "opportunities", label: "Opportunities", icon: Sparkles, badge: signalCount > 0 ? signalCount : null },
-        { id: "creator-studio", label: "Creator Studio", icon: Wand2, badge: "NEW" },
-        { id: "sources", label: "Data Sources", icon: Database },
-        { id: "analytics", label: "Analytics", icon: BarChart3 },
+    const groups = [
+        ["WORKSPACE", [
+            { id: "overview", label: "Overview", icon: LayoutDashboard },
+            { id: "opportunities", label: "Opportunities", icon: Sparkles, badge: signalCount > 0 ? signalCount : null },
+            { id: "creator-studio", label: "Creator Studio", icon: Wand2, badge: "NEW" },
+            { id: "planner", label: "Content Planner", icon: KanbanSquare },
+            { id: "sources", label: "Data Sources", icon: Database },
+            { id: "analytics", label: "Analytics", icon: BarChart3 },
+        ]],
+        ["RESEARCH", [
+            { id: "evaluation", label: "Evaluation", icon: FlaskConical },
+            { id: "lab", label: "GhostGap Lab", icon: SlidersHorizontal },
+            { id: "history", label: "History & Compare", icon: History },
+            { id: "graph", label: "Knowledge Graph", icon: Network },
+        ]],
     ];
     return (
         <aside className="sidebar">
@@ -18,16 +27,20 @@ export default function Sidebar({ activePage, setActivePage, signalCount = 0, he
                 <div><h1>Creator Engine</h1><span>Audience Intelligence</span></div>
             </div>
             <nav className="sidebar-nav">
-                <div className="nav-label">WORKSPACE</div>
-                {menuItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                        <button key={item.id} className={`nav-item ${activePage === item.id ? "active" : ""}`} onClick={() => setActivePage(item.id)}>
-                            <Icon size={18} /><span>{item.label}</span>
-                            {item.badge && <span className="nav-badge">{item.badge}</span>}
-                        </button>
-                    );
-                })}
+                {groups.map(([label, items]) => (
+                    <React.Fragment key={label}>
+                        <div className="nav-label">{label}</div>
+                        {items.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                                <button key={item.id} className={`nav-item ${activePage === item.id ? "active" : ""}`} onClick={() => setActivePage(item.id)}>
+                                    <Icon size={18} /><span>{item.label}</span>
+                                    {item.badge && <span className="nav-badge">{item.badge}</span>}
+                                </button>
+                            );
+                        })}
+                    </React.Fragment>
+                ))}
             </nav>
             <div className="sidebar-bottom">
                 <div className="system-status">

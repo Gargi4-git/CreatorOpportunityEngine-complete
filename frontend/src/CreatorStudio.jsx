@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { errMsg, generateBrief } from "./api";
+import { errMsg, generateBrief, planCreate } from "./api";
 import SourceInput from "./components/SourceInput";
 import AnalysisProgress from "./components/AnalysisProgress";
 import { num, oppTitle } from "./format";
@@ -14,10 +14,12 @@ export default function CreatorStudio({ health, run, startRun, opportunities, st
     const [format, setFormat] = useState("youtube");
     const [gen, setGen] = useState({ loading: false, error: null, data: null });
     const [copied, setCopied] = useState(false);
+    const [saved, setSaved] = useState(null);
 
     const running = !!run && !["completed", "failed"].includes(run.analysis?.status);
     const opp = useMemo(() => opportunities.find((o) => o.id === studioOppId) || opportunities[0], [opportunities, studioOppId]);
-    useEffect(() => { setGen({ loading: false, error: null, data: null }); }, [opp?.id]);
+    useEffect(() => { setGen({ loading: false, error: null, data: null }); setSaved(null); }, [opp?.id]);
+    const saveToPlanner = async () => { try { await planCreate(opp.id, { brief: gen.data.brief, format: gen.data.format }); setSaved("ok"); } catch (e) { setSaved(errMsg(e)); } };
 
     const generate = async () => {
         setGen({ loading: true, error: null, data: null });
@@ -100,7 +102,8 @@ export default function CreatorStudio({ health, run, startRun, opportunities, st
                             : gen.data ? (() => { const b = gen.data.brief; return (
                                 <div className="result-content brief">
                                     <div className="result-header"><div><span className="result-label">{gen.data.format.toUpperCase()} · {b.length}</span><h3>{b.title}</h3></div>
-                                        <div className="result-actions"><button className="copy-result-button" onClick={copy}>{copied ? "✓ Copied" : "Copy Brief"}</button></div></div>
+                                        <div className="result-actions"><button className="copy-result-button" onClick={copy}>{copied ? "✓ Copied" : "Copy Brief"}</button>
+                                            <button className="copy-result-button" onClick={saveToPlanner} disabled={saved === "ok"}>{saved === "ok" ? "✓ Saved to planner" : "Save to planner"}</button></div></div>
                                     <h4>Hook</h4><p>{b.hook}</p>
                                     <h4>Target audience</h4><p>{b.target_audience}</p>
                                     <h4>Outline</h4><ol>{b.outline.map((x, i) => <li key={i}>{x}</li>)}</ol>
