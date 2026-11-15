@@ -26,10 +26,25 @@ def now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def create_analysis(source_ids: List[str]) -> str:
+def source_key(source_ids: List[str]) -> str:
+    """Stable identity of what was analysed (channel / video / subreddit / file) so analyses can be tracked over time."""
+    db = get_db()
+    keys = []
+    for s in db.sources.find({"_id": {"$in": source_ids}}):
+        m = s.get("meta") or {}
+        if s["type"] == "youtube" and (m.get("video", {}).get("channel_id") or m.get("channel", {}).get("channel_id")):
+            keys.append("youtube:channel:" + (m.get("video", {}).get("channel_id") or m["channel"]["channel_id"]))
+        elif s["type"] == "reddit":
+            keys.append("reddit:" + str(m.get("subreddit")))
+        else:
+            keys.append(f"{s['type']}:{s['label']}")
+    return " + ".join(sorted(set(keys)))
+
+
+def create_analysis(source_ids: List[str], options: dict = None) -> str:
     aid = uuid.uuid4().hex
     get_db().analyses.insert_one({
-        "_id": aid, "source_ids": source_ids, "status": "queued", "created_at": now(), "progress": 0,
+        "_id": aid, "source_ids": source_ids, "options": options or {}, "source_key": source_key(source_ids), "status": "queued", "created_at": now(), "progress": 0,
         "steps": [{"key": k, "label": l, "status": "pending", "detail": None} for k, l in STEPS],
         "error": None, "summary": None})
     return aid

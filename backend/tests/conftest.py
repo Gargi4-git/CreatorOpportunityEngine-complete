@@ -42,7 +42,7 @@ from app import config as app_config
 from app.services import gemini_service, whisper_service
 
 PATCH_TARGETS = ["app.config", "app.api.upload", "app.services.youtube_service", "app.services.reddit_service",
-                 "app.services.gemini_service", "app.agents.recommendation_agent"]
+                 "app.services.gemini_service", "app.agents.recommendation_agent", "app.services.supply_service"]
 
 
 @pytest.fixture()

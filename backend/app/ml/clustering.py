@@ -30,13 +30,13 @@ def cluster_embeddings(E: np.ndarray) -> dict:
     return {"labels": np.asarray(labels), "method": method, "n_clusters": len(set(labels) - {-1})}
 
 
-def label_clusters(texts: List[str], labels: np.ndarray) -> dict:
+def label_clusters(texts: List[str], labels: np.ndarray, multilingual: bool = False) -> dict:
     """Deterministic keyword label per cluster using TF-IDF over cluster-documents (class-based TF-IDF)."""
     ids = sorted(set(int(l) for l in labels) - {-1})
     if not ids:
         return {}
     docs = [" ".join(t for t, l in zip(texts, labels) if l == i) for i in ids]
-    vec = TfidfVectorizer(stop_words="english", ngram_range=(1, 2), min_df=1, sublinear_tf=True)
+    vec = TfidfVectorizer(stop_words=None if multilingual else "english", ngram_range=(1, 2), min_df=1, sublinear_tf=True)
     X = vec.fit_transform(docs)
     terms = np.array(vec.get_feature_names_out())
     out = {}

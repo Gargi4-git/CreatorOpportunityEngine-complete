@@ -37,16 +37,32 @@ class SentenceTransformerEmbedder:
         return np.asarray(vecs, dtype=np.float32)
 
 
-_embedder: Optional[Embedder] = None
+_embedders: dict = {}
 
 
 def set_embedder(e: Optional[Embedder]) -> None:
-    global _embedder
-    _embedder = e
+    """Inject an embedder (tests) - used for both the default and multilingual slots."""
+    _embedders.clear()
+    if e is not None:
+        _embedders["default"] = _embedders["multilingual"] = e
 
 
-def get_embedder() -> Embedder:
-    global _embedder
-    if _embedder is None:
-        _embedder = SentenceTransformerEmbedder(settings.embedding_model)
-    return _embedder
+def get_embedder(multilingual: bool = False) -> Embedder:
+    key = "multilingual" if multilingual else "default"
+    if key not in _embedders:
+        _embedders[key] = SentenceTransformerEmbedder(settings.multilingual_model if multilingual else settings.embedding_model)
+    return _embedders[key]
+
+
+class HashingEmbedder:
+    """Lexical BASELINE embedder (word + bigram hashing, 384-d). Not used by the pipeline - it exists so the Evaluation page can
+    measure how much a semantic model (MiniLM) actually adds over a words-only baseline."""
+    name = "lexical hashing baseline (not semantic)"
+    mode = "fallback"
+
+    def __init__(self):
+        from sklearn.feature_extraction.text import HashingVectorizer
+        self._v = HashingVectorizer(n_features=384, alternate_sign=False, norm="l2", ngram_range=(1, 2), stop_words="english")
+
+    def encode(self, texts: List[str]) -> np.ndarray:
+        return np.asarray(self._v.transform(texts).todense(), dtype=np.float32)

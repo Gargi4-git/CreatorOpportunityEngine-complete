@@ -43,6 +43,7 @@ def run(state: dict) -> dict:
             "sentiment_distribution": dict(Counter(records[i]["sentiment"] for i in idx)),
             "intent_distribution": dict(Counter(records[i]["intent"] for i in idx)),
             "total_engagement": ctx["eng_tot"][c],
+            "video_breakdown": _video_breakdown(records, idx),
             "member_idx": [int(i) for i in order],          # internal: ordered by closeness to centroid
             "representative_comments": [{"text": records[i]["text"], "likes": records[i]["likes"], "platform": records[i]["platform"],
                                          "modality": records[i].get("modality", "text"), "timestamp": records[i]["timestamp"]}
@@ -53,3 +54,10 @@ def run(state: dict) -> dict:
         o["rank"] = r
     progress.step(aid, "ghostgap", "done", f"{len(opps)} opportunities scored")
     return {"opportunities": opps}
+
+
+def _video_breakdown(records, idx):
+    """Which videos' comments drive this topic (channel-level analyses). Empty for sources without video ids."""
+    from collections import Counter
+    c = Counter((records[i].get("video_id"), records[i].get("video_title")) for i in idx if records[i].get("video_id"))
+    return [{"video_id": v, "title": t, "count": n} for (v, t), n in c.most_common(8)]

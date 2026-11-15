@@ -55,11 +55,20 @@ def demand_score(signals: Dict[str, Optional[float]]) -> dict:
     }
 
 
-def ghostgap(components: Dict[str, Optional[float]]) -> dict:
-    """components: demand, trend, pain, engagement, freshness, competition -> 0..100, or None if unavailable."""
-    breakdown, raw, pos_w, neg_w, unavailable = {}, 0.0, 0.0, 0.0, []
+def resolve_weights(weights: Optional[Dict[str, float]] = None):
+    """Overlay custom weights (non-negative magnitudes; competition is always a penalty) on the central defaults."""
+    pos = {k: float((weights or {}).get(k, v)) for k, v in POSITIVE_WEIGHTS.items()}
+    neg = {k: float((weights or {}).get(k, v)) for k, v in NEGATIVE_WEIGHTS.items()}
+    return pos, neg
 
-    for name, w in POSITIVE_WEIGHTS.items():
+
+def ghostgap(components: Dict[str, Optional[float]], weights: Optional[Dict[str, float]] = None) -> dict:
+    """components: demand, trend, pain, engagement, freshness, competition -> 0..100, or None if unavailable.
+    weights: optional override {name: magnitude}; defaults are the central POSITIVE/NEGATIVE_WEIGHTS."""
+    breakdown, raw, pos_w, neg_w, unavailable = {}, 0.0, 0.0, 0.0, []
+    P, N = resolve_weights(weights)
+
+    for name, w in P.items():
         v = components.get(name)
         if v is None:
             unavailable.append(name)
@@ -70,7 +79,7 @@ def ghostgap(components: Dict[str, Optional[float]]) -> dict:
         breakdown[name] = {"score": round(v, 1), "weight": w, "points": round(w * v, 1),
                            "max_points": round(w * 100, 1)}
 
-    for name, w in NEGATIVE_WEIGHTS.items():
+    for name, w in N.items():
         v = components.get(name)
         if v is None:
             unavailable.append(name)

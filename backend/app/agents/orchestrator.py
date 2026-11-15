@@ -30,7 +30,7 @@ def persist_node(state: dict) -> dict:
     db.audience_records.insert_many([{
         "_id": uuid.uuid4().hex, "stage": "analyzed", "analysis_id": aid, "source": r["platform"], "source_id": r.get("source_id"),
         "text": r["text"], "timestamp": r["timestamp"], "engagement": {"likes": r["likes"], "replies": r["replies"]},
-        "modality": r.get("modality", "text"), "language": r.get("language"), "cluster_id": r["cluster_id"], "intent": r["intent"],
+        "modality": r.get("modality", "text"), "language": r.get("language"), "video_id": r.get("video_id"), "cluster_id": r["cluster_id"], "intent": r["intent"],
         "sentiment": r["sentiment"], "pain_score": r["pain_score"], "embedding_id": f"{aid}:{i}"} for i, r in enumerate(records)])
     db.embeddings.insert_many([{"_id": f"{aid}:{i}", "analysis_id": aid, "model": state["embedder_name"],
                                 "vector": Binary(E[i].astype(np.float32).tobytes())} for i in range(len(records))])
@@ -55,7 +55,8 @@ def persist_node(state: dict) -> dict:
         "avg_trend": _mean([o["scores"]["trend"] for o in opps]),
         "platforms": dict(Counter(df["platform"])), "modalities": dict(Counter(r.get("modality", "text") for r in records)),
         "components_unavailable": sorted({u for o in opps for u in o["unavailable_components"]}),
-        "embedding_model": state["embedder_name"], "vector_backend": vector_service.backend_name(),
+        "embedding_model": state["embedder_name"], "options": state.get("options", {}),
+        "languages": state["report"].get("languages", {}), "vector_backend": vector_service.backend_name(),
         "gemini_used": any(o.get("recommendation") for o in opps) or any(m["label_source"] == "gemini" for m in state["topic_meta"].values()),
         "recommendations_generated": sum(1 for o in opps if o.get("recommendation")),
         "warnings": state.get("warnings", []),
@@ -87,9 +88,10 @@ def build_graph():
 def run_analysis(aid: str) -> None:
     """Entry point used by the API's background task. Failures become short human-readable messages."""
     db = get_db()
-    src = db.analyses.find_one({"_id": aid})["source_ids"]
+    doc = db.analyses.find_one({"_id": aid})
+    src, options = doc["source_ids"], doc.get("options") or {}
     try:
-        final = build_graph().invoke({"analysis_id": aid, "source_ids": src})
+        final = build_graph().invoke({"analysis_id": aid, "source_ids": src, "options": options})
         if final.get("error") and final["error"] not in ("insufficient",):
             progress.fail(aid, final["error"])
     except (EmbeddingUnavailable, DatabaseUnavailable) as exc:

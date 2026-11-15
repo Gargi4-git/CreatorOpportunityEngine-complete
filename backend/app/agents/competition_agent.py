@@ -1,7 +1,8 @@
 """AGENT 7 - COMPETITION. Existing-content supply from the YouTube search API for the highest-demand topics.
 Never fabricates: without an API key, or on quota/network errors, the affected topics are marked unavailable."""
 from app.ml.competition import score_supply
-from app.services import progress, youtube_service
+from app.ml.embeddings import get_embedder
+from app.services import progress, supply_service, youtube_service
 
 MAX_TOPICS = 8   # search.list costs 100 quota units per call
 
@@ -15,12 +16,15 @@ def run(state: dict) -> dict:
         progress.step(aid, "competition", "skipped", "Competition data unavailable - YouTube API not connected")
         return {"competition": comp}
     progress.step(aid, "competition", "running")
+    embedder = get_embedder(bool(state.get("options", {}).get("multilingual")))
     ranked = sorted(cids, key=lambda c: -(demand[c]["score"] or 0))[:MAX_TOPICS]
     done = 0
     for c in ranked:
         q = meta[c]["search_query"]
         try:
-            comp[c] = score_supply(youtube_service.search_supply(q), q)
+            topic_text = " ".join(x for x in [meta[c]["label"], meta[c].get("audience_need")] if x)
+            comp[c] = score_supply(youtube_service.search_supply(q), q, embedder=embedder, topic_text=topic_text,
+                                   other=supply_service.collect(q))
             done += 1
         except youtube_service.YouTubeError as exc:
             warnings.append(f"Competition lookup stopped: {exc}")

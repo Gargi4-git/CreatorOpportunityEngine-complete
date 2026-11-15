@@ -31,7 +31,9 @@ def explain(o: dict) -> dict:
     c = o["competition"]
     if c["available"]:
         facts.append({"label": "Competition", "text": f"{band(c['score'])} ({c['score']}/100): ~{c['total_results']:,} YouTube results for '{c['query']}', "
-                      f"{round(c['recent_share'] * 100)}% of the top results are from the last 180 days"})
+                      f"{round(c['recent_share'] * 100)}% of the top results are from the last 180 days, "
+                      f"{round(c['relevance_share'] * 100)}% closely cover this subtopic"
+                      + (f"; also measured on {', '.join(c['other_platforms'])}" if c.get("other_platforms") else "")})
     else:
         caveats.append(c.get("reason", "Competition data unavailable") + " - the content gap cannot be confirmed")
     verdict = VERDICTS.get(s["quadrant"]) if s["quadrant"] else "Demand is measured, but whether this is a content gap cannot be confirmed without competition data."

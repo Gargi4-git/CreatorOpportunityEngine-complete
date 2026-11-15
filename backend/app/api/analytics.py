@@ -45,6 +45,7 @@ def overview(analysis_id: Optional[str] = None):
         "topic_trends": [{"topic": o["topic"], "series": o["trend"]["series"]} for o in opps[:5] if o["trend"]["available"]],
         "score_distribution": [{"range": f"{lo}-{min(hi, 100)}", "count": sum(lo <= g < hi for g in gg)} for lo, hi in BINS],
         "platform_distribution": [{"name": k, "value": v} for k, v in Counter(r["source"] for r in recs).items()],
+        "language_distribution": [{"name": k, "value": v} for k, v in Counter((r.get("language") or "unknown") for r in recs).items()],
         "modality_distribution": [{"name": k, "value": v} for k, v in Counter(r["modality"] for r in recs).items()],
         "sentiment_distribution": [{"name": k, "value": v} for k, v in Counter(r["sentiment"] for r in recs).items()],
         "intent_distribution": [{"name": k, "value": v} for k, v in Counter(r["intent"] for r in recs).most_common()],

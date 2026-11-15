@@ -23,6 +23,7 @@ class Settings:
     max_upload_mb: int = int(os.getenv("MAX_UPLOAD_MB", "10"))
     max_records: int = int(os.getenv("MAX_RECORDS", "5000"))
     english_only: bool = _flag("CLEAN_ENGLISH_ONLY", True)
+    multilingual_model: str = os.getenv("MULTILINGUAL_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
     cors_origins: tuple = tuple(os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(","))
 
     @property

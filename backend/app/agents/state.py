@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, TypedDict
 
 class PipelineState(TypedDict, total=False):
     analysis_id: str
+    options: dict
     source_ids: List[str]
     raw: List[dict]
     records: List[dict]          # normalised audience records (all modalities)

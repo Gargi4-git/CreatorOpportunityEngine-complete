@@ -15,7 +15,8 @@ def run(state: dict) -> dict:
     records, report, warnings = state["records"], state["report"], list(state.get("warnings", []))
 
     progress.step(aid, "embed", "running")
-    embedder = get_embedder()
+    multilingual = bool(state.get("options", {}).get("multilingual"))
+    embedder = get_embedder(multilingual)
     E = embedder.encode([r["embed_text"] for r in records])
     records, E, near = drop_near_duplicates(records, E)
     report["near_duplicates_removed"], report["analyzed"] = near, len(records)
@@ -25,7 +26,7 @@ def run(state: dict) -> dict:
     texts = [r["text"] for r in records]
     cl = cluster_embeddings(E)
     labels = cl["labels"]
-    kw = label_clusters(texts, labels)
+    kw = label_clusters(texts, labels, multilingual=multilingual)
     cluster_ids = sorted(set(int(l) for l in labels) - {-1})
     sizes = {c: int((labels == c).sum()) for c in cluster_ids}
     meta = {}

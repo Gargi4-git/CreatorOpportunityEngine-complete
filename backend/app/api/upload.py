@@ -39,8 +39,8 @@ async def _read_limited(file: UploadFile, mb: int) -> bytes:
     return raw
 
 
-def _start(background: BackgroundTasks, sid: str) -> str:
-    aid = create_analysis([sid])
+def _start(background: BackgroundTasks, sid: str, multilingual: bool = False) -> str:
+    aid = create_analysis([sid], {"multilingual": multilingual})
     background.add_task(run_analysis, aid)
     return aid
 
@@ -66,6 +66,7 @@ async def upload_csv(file: UploadFile = File(...)):
 class YouTubeRequest(BaseModel):
     url: str = Field(max_length=300)
     comment_limit: int = Field(250, ge=10, le=1000)
+    multilingual: bool = False
 
 
 @router.post("/youtube/analyze")
@@ -82,13 +83,42 @@ def youtube_analyze(req: YouTubeRequest, background: BackgroundTasks):
     except youtube_service.YouTubeError as exc:
         raise HTTPException(422, str(exc))
     sid = source_service.create_source("youtube", meta["title"] or vid, records, {"video": meta})
-    return {"source_id": sid, "analysis_id": _start(background, sid), "video": meta, "comments_fetched": len(records)}
+    return {"source_id": sid, "analysis_id": _start(background, sid, req.multilingual), "video": meta, "comments_fetched": len(records)}
+
+
+# ------------------------------------------------------------------ YouTube channel (aggregate the last N videos)
+class ChannelRequest(BaseModel):
+    url: str = Field(max_length=300, description="https://www.youtube.com/@handle or /channel/UC...")
+    video_count: int = Field(5, ge=2, le=25)
+    comments_per_video: int = Field(100, ge=20, le=250)
+    multilingual: bool = False
+
+
+@router.post("/youtube/channel/analyze")
+def youtube_channel_analyze(req: ChannelRequest, background: BackgroundTasks):
+    _db()
+    try:
+        youtube_service.parse_channel_url(req.url)
+        if not settings.youtube_configured:
+            raise youtube_service.YouTubeNotConfigured()
+        ch = youtube_service.resolve_channel(req.url)
+        videos = youtube_service.recent_videos(ch["uploads_playlist"], req.video_count)
+        if not videos:
+            raise youtube_service.YouTubeError("This channel has no public videos.")
+        records, report = youtube_service.fetch_channel_comments(videos, req.comments_per_video)
+    except youtube_service.YouTubeNotConfigured as exc:
+        raise HTTPException(503, {"code": "api_key_required", "message": str(exc)})
+    except youtube_service.YouTubeError as exc:
+        raise HTTPException(422, str(exc))
+    sid = source_service.create_source("youtube", f"Channel: {ch['title']} ({len(videos)} videos)", records, {"channel": ch, "videos": report})
+    return {"source_id": sid, "analysis_id": _start(background, sid, req.multilingual), "channel": ch, "videos": report, "comments_fetched": len(records)}
 
 
 # ------------------------------------------------------------------ Reddit
 class RedditRequest(BaseModel):
     target: str = Field(max_length=300, description="post URL, subreddit URL, or r/name")
     limit: int = Field(100, ge=10, le=500)
+    multilingual: bool = False
 
 
 @router.post("/reddit/analyze")
@@ -103,16 +133,16 @@ def reddit_analyze(req: RedditRequest, background: BackgroundTasks):
         raise HTTPException(422, str(exc))
     label = f"r/{meta['subreddit']}" + (f" post {meta['post_id']}" if meta["post_id"] else "")
     sid = source_service.create_source("reddit", label, records, meta)
-    return {"source_id": sid, "analysis_id": _start(background, sid), "records_fetched": len(records), **meta}
+    return {"source_id": sid, "analysis_id": _start(background, sid, req.multilingual), "records_fetched": len(records), **meta}
 
 
 # ------------------------------------------------------------------ Demo dataset (clearly labelled; runs the SAME pipeline)
 @router.post("/demo/load")
-def demo_load(background: BackgroundTasks):
+def demo_load(background: BackgroundTasks, multilingual: bool = False):
     _db()
     records, report = parse_csv(DEMO_CSV.read_bytes(), default_platform="csv")
     sid = source_service.create_source("csv", "Demo Dataset (synthetic sample)", records, {"report": report}, dataset_label="demo")
-    return {"source_id": sid, "analysis_id": _start(background, sid), "dataset_label": "demo", "rows": len(records)}
+    return {"source_id": sid, "analysis_id": _start(background, sid, multilingual), "dataset_label": "demo", "rows": len(records)}
 
 
 # ------------------------------------------------------------------ Images

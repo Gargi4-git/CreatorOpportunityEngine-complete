@@ -11,7 +11,7 @@ def run(state: dict) -> dict:
     aid = state["analysis_id"]
     records, E, labels = state["records"], state["E"], state["labels"]
     progress.step(aid, "intent", "running")
-    cls = PrototypeClassifier(get_embedder()).classify(E)
+    cls = PrototypeClassifier(get_embedder(bool(state.get("options", {}).get("multilingual")))).classify(E)
     overridden = 0
     for i, r in enumerate(records):
         r.update(cls[i])

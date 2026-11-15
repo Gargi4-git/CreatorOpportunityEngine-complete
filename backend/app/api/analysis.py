@@ -11,6 +11,7 @@ router = APIRouter(prefix="/api/analysis", tags=["Analysis"])
 
 class RunRequest(BaseModel):
     source_ids: List[str] = Field(min_length=1, max_length=10)
+    multilingual: bool = False
 
 
 @router.post("/run")
@@ -20,7 +21,7 @@ def run(req: RunRequest, background: BackgroundTasks):
         found = db.sources.count_documents({"_id": {"$in": req.source_ids}})
         if found != len(set(req.source_ids)):
             raise HTTPException(404, "One or more sources were not found.")
-        aid = create_analysis(req.source_ids)
+        aid = create_analysis(req.source_ids, {"multilingual": req.multilingual})
     except DatabaseUnavailable as exc:
         raise HTTPException(503, str(exc))
     background.add_task(run_analysis, aid)
